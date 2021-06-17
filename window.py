@@ -39,15 +39,7 @@ class Window(Tk):
         self.btn_add.grid(row=4, column=1, columnspan=2, pady=2)
 
         self.mainloop()
-
-    def generate_password(self):
-        characters = string.ascii_letters + string.digits + string.punctuation
-        temp = random.sample(characters, 16)
-        password = "".join(temp)
-
-        self.input_password.delete(0, END)
-        self.input_password.insert(0, password)
-
+    
     def save(self):
 
         website = self.input_website.get()
