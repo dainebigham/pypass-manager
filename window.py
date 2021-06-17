@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 import string
 import random
+import pyperclip
 
 class Window(Tk):
     def __init__(self):
@@ -65,3 +66,4 @@ class Window(Tk):
 
         self.input_password.delete(0, END)
         self.input_password.insert(0, password)
+        pyperclip.copy(password)
