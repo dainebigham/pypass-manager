@@ -38,7 +38,7 @@ class Window(Tk):
         self.btn_password.grid(row=3, column=2, pady=2)
         self.btn_add = Button(text='Add', width=38, command=self.save)
         self.btn_add.grid(row=4, column=1, columnspan=2, pady=2)
-        self.btn_search = Button(text='Search', width=8)
+        self.btn_search = Button(text='Search', width=8, command=self.search)
         self.btn_search.grid(row=1, column=2, pady=2)
 
         self.mainloop()
@@ -69,7 +69,7 @@ class Window(Tk):
 
             else:
                 data.update(new_data)
-                
+
                 with open('data.json', 'w') as f:
                     json.dump(data, f, indent=4)
 
@@ -85,3 +85,21 @@ class Window(Tk):
         self.input_password.delete(0, END)
         self.input_password.insert(0, password)
         pyperclip.copy(password)
+
+    def search(self): 
+        website = self.input_website.get()
+
+        try:
+            with open('data.json', 'r') as f:
+                data = json.load(f)
+        except FileNotFoundError:
+            messagebox.showinfo(title='File Error', message='You haven\'t added any entries yet')
+        else:
+            if website in data:
+                username = data[website]['email']
+                password = data[website]['password']
+                
+                messagebox.showinfo(title=website, message=f'Username: {username}\nPassword: {password}')
+                pyperclip.copy(password)
+            else: 
+                messagebox.showinfo(title='Value Error', message=f'There are no entries for {website} saved.')
