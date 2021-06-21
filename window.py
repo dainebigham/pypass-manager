@@ -59,15 +59,23 @@ class Window(Tk):
         if len(website) == 0 or len(password) == 0: 
             messagebox.showinfo(title='Oops...', message="Looks like you're missing something")
         else: 
-            with open('data.json', 'r') as f:
-                data = json.load(f)
+            try:
+                with open('data.json', 'r') as f:
+                    data = json.load(f)
+
+            except FileNotFoundError:
+                with open('data.json', 'w') as f:
+                    json.dump(new_data, f, indent=4)
+
+            else:
                 data.update(new_data)
                 
-            with open('data.json', 'w') as f:
-                json.dump(data, f, indent=4)
+                with open('data.json', 'w') as f:
+                    json.dump(data, f, indent=4)
 
-                self.input_website.delete(0, END)
-                self.input_password.delete(0, END)
+            finally:
+                    self.input_website.delete(0, END)
+                    self.input_password.delete(0, END)
 
     def generate_password(self):
         characters = string.ascii_letters + string.digits + string.punctuation
